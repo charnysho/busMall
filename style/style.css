@@ -1,0 +1,8 @@
+#img-container {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+#img-container img {
+  width: 200px;
+}
