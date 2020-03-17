@@ -4,30 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BusMall</title>
+  <link href="https://fonts.googleapis.com/css?family=Acme&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style/reset.css">
   <link rel="stylesheet" href="style/style.css">
-  <!-- <style>
-    #img-container {
-      margin: 0 auto;
-      width: fit-content;
-    }
-
-    #img-container img {
-      width: 200px;
-    }
-  </style> -->
 </head>
 <body>
-  <h1>BusMall</h1>
-  <div>
-    <ul id="result"></ul>
+  <header>
+    <img id="titleImg" src="https://previews.123rf.com/images/pavelvinnik/pavelvinnik1906/pavelvinnik190600349/125586093-bus-station-with-vehicle-waiting-for-psssengers-flat-cartoon-vector-illustration-puplic-transport-ro.jpg" alt="logo">
+    <h1 id="title">Bus - Mall</h1>
+  </header>
+  <main>
+    <div id="results-container">
+      <p>Results:</p>
+      <ul id="result"></ul>
+    </div>
+    <div id="img-container">
+      <h1>Vote!</h1>
+      <img id="img1">
+      <img id="img2">
+      <img id="img3">
+    </div>
+    <div id='rules'>
+      <h1>Rules:</h1>
+      <p>Click on image that you like.</p>
+      <p>There are 25 voting rounds.</p>
+      <p>Check out your results</p>
   </div>
-  <div id="img-container">
-    <img id="img1">
-    <img id="img2">
-    <img id="img3">
-  </div>
+  </main>
   <script src="app/app.js"></script>
 </body>
-
 </html>
