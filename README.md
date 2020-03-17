@@ -22,7 +22,7 @@ You are also responsible for the look and feel of the app, so don't forget a cus
 
 User stories are a device commonly used in software development to identify what the functionality and design of a product should be by considering the interests and motivations of people with varied multiple points of view. They are presented in the manner of
 
-> As a ____, I want ____, so that ____
+`As a ____, I want ____, so that ____`
 
 This layout allows a client to communicate to a team what type of behavior they are looking for and allow the developer team to think up a solution that best fits the clients need.
 
@@ -30,5 +30,4 @@ The development team will then create sub-bullets called ***Feature Tasks*** whi
 
 Below are your lab requirements in this format. Try and think up what the feature tasks would be for each story, once your done, or you get stuck, review the provided feature tasks to see what the actual tasks are for each story.
 
-## Instructions
 
