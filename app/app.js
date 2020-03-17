@@ -1,7 +1,7 @@
 'use strict';
 
 var allImages = [];
-var roundsNumber = 5;
+var roundsNumber = 25;
 var click = 0;
 
 function Product(name, imagePath) {
@@ -60,7 +60,7 @@ var resultListEl = document.getElementById('result');
 
 function clickHandler(event) {
   if (click >= roundsNumber) {
-    renderList();
+    renderResultList();
     removeClickListener();
   } else {
     click++;
@@ -73,10 +73,18 @@ function clickHandler(event) {
   }
 }
 
-function renderList() {
+var elements = [image1, image2, image3];
+
+function removeClickListener() {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeEventListener('click', clickHandler);
+  }
+}
+
+function renderResultList() {
   for (var i = 0; i < allImages.length; i++) {
     var li = document.createElement('li');
-    li.textContent = allImages[i].name + ': votes ' + allImages[i].numClicked + 
+    li.textContent = allImages[i].name + ': votes ' + allImages[i].numClicked +
     ', was shown ' + allImages[i].timesRendered + ' times';
     resultListEl.appendChild(li);
   }
@@ -97,12 +105,3 @@ function generateRandomImages() {
 image1.addEventListener('click', clickHandler);
 image2.addEventListener('click', clickHandler);
 image3.addEventListener('click', clickHandler);
-
-var elements = [image1, image2, image3];
-
-function removeClickListener() {
-  console.log(elements);
-  for (var i = 0; i < elements.length; i++) {
-    elements[i].removeEventListener('click', clickHandler);
-  }
-}
