@@ -1,7 +1,7 @@
 'use strict';
 
 var allImages = [];
-var roundsNumber = 25;
+var roundsNumber = 5;
 var click = 0;
 
 function Product(name, imagePath) {
@@ -54,6 +54,18 @@ function renderImages() {
   newImage3.timesRendered++;
 }
 
+function generateRandomImages() {
+  var index = Math.floor(Math.random() * allImages.length);
+  while (
+    allImages[index].name === image1.name ||
+    allImages[index].name === image2.name ||
+    allImages[index].name === image3.name
+  ) {
+    index = Math.floor(Math.random() * allImages.length);
+  }
+  return allImages[index];
+}
+
 renderImages();
 
 var resultListEl = document.getElementById('result');
@@ -62,6 +74,7 @@ function clickHandler(event) {
   if (click >= roundsNumber) {
     renderResultList();
     removeClickListener();
+    drawChart();
   } else {
     click++;
     for (var i = 0; i < allImages.length; i++) {
@@ -90,18 +103,80 @@ function renderResultList() {
   }
 }
 
-function generateRandomImages() {
-  var index = Math.floor(Math.random() * allImages.length);
-  while (
-    allImages[index].name === image1.name ||
-    allImages[index].name === image2.name ||
-    allImages[index].name === image3.name
-  ) {
-    index = Math.floor(Math.random() * allImages.length);
-  }
-  return allImages[index];
-}
-
 image1.addEventListener('click', clickHandler);
 image2.addEventListener('click', clickHandler);
 image3.addEventListener('click', clickHandler);
+
+var canvas = document.getElementById('myChart');
+var ctx = canvas.getContext('2d');
+
+var backgroundColorList = [];
+var tmpBackgroundColorList = [];
+var bordersList = [];
+
+createcolors();
+
+function createcolors() {
+  for(var i = 0; i < allImages.length; i++) {
+    backgroundColorList.push('#2c786c');
+    tmpBackgroundColorList.push('#AAAA00');
+  }
+}
+
+createBorders();
+
+function createBorders() {
+  for(var i = 0; i < allImages.length; i++) {
+    bordersList.push('#f8b400');
+  }
+}
+
+function drawChart() {
+  createDataForChart();
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: nameList,
+      datasets: [{
+        label: 'Number of Votes',
+        stack: 'votes',
+        data: numClickedList,
+        backgroundColor: backgroundColorList,
+        borderColor: bordersList,
+        borderWidth: 1.5
+      },{
+        label: 'Number of Shows',
+        stack: 'shows',
+        data: timesRenderedList,
+        backgroundColor: tmpBackgroundColorList,
+        borderColor: bordersList,
+        borderWidth: 1.5
+      },
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          stacked: true
+        }],
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
+var numClickedList = [];
+var timesRenderedList = [];
+var nameList = [];
+
+function createDataForChart() {
+  for(var i = 0; i < allImages.length; i++) {
+    numClickedList.push(allImages[i].numClicked);
+    timesRenderedList.push(allImages[i].timesRendered);
+    nameList.push(allImages[i].name);
+  }
+}
