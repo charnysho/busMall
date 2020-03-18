@@ -31,14 +31,14 @@ header {
   display: inline-block; 
   background-color: #2c786c ;
   color: #faf5e4;
-  margin-top: 50px;
   margin-left: 1.4em; 
   font-size: 1.5em;
   padding: 20px;
-  width: 34%;
+  width: 30%;
   border-radius: 50px;
   border: 2px solid #f8b400;
   margin-bottom: 50px;
+  margin-top: 20px;
 }
 
 #results-container p {
@@ -54,13 +54,11 @@ header {
 
 
 #img-container {
-  position: fixed;
   display: inline-block;
   margin-top: 50px;
   width: 55%;
   padding: 15px;
   background-color: #2c786c;
-  display: inline-block;
   margin-left: 25px;
   border-radius: 50px;
   border: 2px solid #f8b400;
@@ -74,25 +72,26 @@ li {
 #img-container h1 {
   display: block;
   font-size: 3em;
-  margin-left: 320px;
+  margin-left: 280px;
   font-family: 'Noto Sans SC', sans-serif;
   color: #f8b400;
 } 
 
 #img-container img {
-  width: 20%;
-  padding: 10px;
+  width: 10%;
+  padding: 5px;
   margin-top: 50px;
-  margin-left: 60px;
+  margin-left: 40px;
   border-radius: 20px;
   border: none;
+  width: 160px;
+  height: 160px;
 } 
 
 #rules {
-  position: fixed;
   display: inline-block;
+  margin-left: 470px;
   width: 45%;
-  margin-top: 440px;
   margin-bottom: 40px;
 }
 
@@ -110,4 +109,12 @@ li {
   padding: 2px;
   color: #004445;
   margin-left: 260px;
+}
+
+#myChart {
+  display: block;
+  width: 30%;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-left: 100px;
 }
