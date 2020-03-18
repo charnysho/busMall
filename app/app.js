@@ -1,7 +1,7 @@
 'use strict';
 
 var allImages = [];
-var roundsNumber = 5;
+var roundsNumber = 25;
 var click = 0;
 
 function Product(name, imagePath) {
