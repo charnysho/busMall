@@ -12,63 +12,81 @@ function Product(name, imagePath) {
   allImages.push(this);
 }
 
-new Product('bag', 'img/bag.jpg');
-new Product('banana', 'img/banana.jpg');
-new Product('bathroom', 'img/bathroom.jpg');
-new Product('boots', 'img/boots.jpg');
-new Product('breakfast', 'img/breakfast.jpg');
-new Product('bubblegum', 'img/bubblegum.jpg');
-new Product('chair', 'img/chair.jpg');
-new Product('cthulhu', 'img/cthulhu.jpg');
-new Product('dog-duck', 'img/dog-duck.jpg');
-new Product('dragon', 'img/dragon.jpg');
-new Product('pen', 'img/pen.jpg');
-new Product('pet-sweep', 'img/pet-sweep.jpg');
-new Product('scissors', 'img/scissors.jpg');
-new Product('shark', 'img/shark.jpg');
-new Product('sweep', 'img/sweep.png');
-new Product('tauntaun', 'img/tauntaun.jpg');
-new Product('unicorn', 'img/unicorn.jpg');
-new Product('usb', 'img/usb.gif');
-new Product('water-can', 'img/water-can.jpg');
-new Product('wine-glass', 'img/wine-glass.jpg');
+if (localStorage.allImages) {
+  allImages = JSON.parse(localStorage.allImages);
+} else {
+  new Product('bag', 'img/bag.jpg');
+  new Product('banana', 'img/banana.jpg');
+  new Product('bathroom', 'img/bathroom.jpg');
+  new Product('boots', 'img/boots.jpg');
+  new Product('breakfast', 'img/breakfast.jpg');
+  new Product('bubblegum', 'img/bubblegum.jpg');
+  new Product('chair', 'img/chair.jpg');
+  new Product('cthulhu', 'img/cthulhu.jpg');
+  new Product('dog-duck', 'img/dog-duck.jpg');
+  new Product('dragon', 'img/dragon.jpg');
+  new Product('pen', 'img/pen.jpg');
+  new Product('pet-sweep', 'img/pet-sweep.jpg');
+  new Product('scissors', 'img/scissors.jpg');
+  new Product('shark', 'img/shark.jpg');
+  new Product('sweep', 'img/sweep.png');
+  new Product('tauntaun', 'img/tauntaun.jpg');
+  new Product('unicorn', 'img/unicorn.jpg');
+  new Product('usb', 'img/usb.gif');
+  new Product('water-can', 'img/water-can.jpg');
+  new Product('wine-glass', 'img/wine-glass.jpg');
+  localStorage.allImages = allImages;
+}
+
 
 var image1 = document.getElementById('img1');
 var image2 = document.getElementById('img2');
 var image3 = document.getElementById('img3');
 
 function renderImages() {
-  var newImage1 = generateRandomImages();
+  var newImageIndexes = generateUniqueImageIndexes(allImages, [image1.name, image2.name, image3.name]);
+
+  var newImage1 = allImages[newImageIndexes[0]];
   image1.src = newImage1.imagePath;
   image1.name = newImage1.name;
   newImage1.timesRendered++;
 
-  var newImage2 = generateRandomImages();
+  var newImage2 = allImages[newImageIndexes[1]];
   image2.src = newImage2.imagePath;
   image2.name = newImage2.name;
   newImage2.timesRendered++;
 
-  var newImage3 = generateRandomImages();
+  var newImage3 = allImages[newImageIndexes[2]];
   image3.src = newImage3.imagePath;
   image3.name = newImage3.name;
   newImage3.timesRendered++;
+
+  localStorage.allImages = JSON.stringify(allImages);
 }
 
-function generateRandomImages() {
-  var index = Math.floor(Math.random() * allImages.length);
-  while (
-    allImages[index].name === image1.name ||
-    allImages[index].name === image2.name ||
-    allImages[index].name === image3.name
-  ) {
-    index = Math.floor(Math.random() * allImages.length);
+
+function generateUniqueImageIndexes(images, usedImageNames) {
+  var newImageIndexes = [];
+
+  while (newImageIndexes.length < 3) {
+    var index = Math.floor(Math.random() * images.length);
+
+    if (!usedImageNames.includes(images[index].name)) {
+      newImageIndexes.push(index);
+      usedImageNames.push(images[index].name);
+    }
+
   }
-  return allImages[index];
+
+  return newImageIndexes;
 }
 
-renderImages();
 
 var resultListEl = document.getElementById('result');
+
+renderImages();
+renderResultList();
+
 
 function clickHandler(event) {
   if (click >= roundsNumber) {
@@ -80,8 +98,10 @@ function clickHandler(event) {
     for (var i = 0; i < allImages.length; i++) {
       if (allImages[i].name === event.target.name) {
         allImages[i].numClicked++;
+        localStorage.allImages = JSON.stringify(allImages);
       }
     }
+    renderResultList();
     renderImages();
   }
 }
@@ -95,6 +115,7 @@ function removeClickListener() {
 }
 
 function renderResultList() {
+  resultListEl.innerHTML = '';
   for (var i = 0; i < allImages.length; i++) {
     var li = document.createElement('li');
     li.textContent = allImages[i].name + ': votes ' + allImages[i].numClicked +
@@ -110,29 +131,10 @@ image3.addEventListener('click', clickHandler);
 var canvas = document.getElementById('myChart');
 var ctx = canvas.getContext('2d');
 
-var backgroundColorList = [];
-var tmpBackgroundColorList = [];
-var bordersList = [];
-
-createcolors();
-
-function createcolors() {
-  for(var i = 0; i < allImages.length; i++) {
-    backgroundColorList.push('#2c786c');
-    tmpBackgroundColorList.push('#AAAA00');
-  }
-}
-
-createBorders();
-
-function createBorders() {
-  for(var i = 0; i < allImages.length; i++) {
-    bordersList.push('#f8b400');
-  }
-}
-
 function drawChart() {
   createDataForChart();
+  createColors();
+  // eslint-disable-next-line no-undef
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -178,5 +180,17 @@ function createDataForChart() {
     numClickedList.push(allImages[i].numClicked);
     timesRenderedList.push(allImages[i].timesRendered);
     nameList.push(allImages[i].name);
+  }
+}
+
+var backgroundColorList = [];
+var tmpBackgroundColorList = [];
+var bordersList = [];
+
+function createColors() {
+  for(var i = 0; i < allImages.length; i++) {
+    backgroundColorList.push('#2c786c');
+    tmpBackgroundColorList.push('#AAAA00');
+    bordersList.push('#f8b400');
   }
 }
