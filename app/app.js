@@ -1,9 +1,11 @@
 'use strict';
 
+//global variables
 var allImages = [];
 var roundsNumber = 25;
 var click = 0;
 
+//constructor of products
 function Product(name, imagePath) {
   this.name = name;
   this.imagePath = imagePath;
@@ -12,6 +14,7 @@ function Product(name, imagePath) {
   allImages.push(this);
 }
 
+//create new objects and save to local storage
 if (localStorage.allImages) {
   allImages = JSON.parse(localStorage.allImages);
 } else {
@@ -38,11 +41,12 @@ if (localStorage.allImages) {
   localStorage.allImages = allImages;
 }
 
-
+//get elements from html
 var image1 = document.getElementById('img1');
 var image2 = document.getElementById('img2');
 var image3 = document.getElementById('img3');
 
+// render unique images
 function renderImages() {
   var newImageIndexes = generateUniqueImageIndexes(allImages, [image1.name, image2.name, image3.name]);
 
@@ -64,30 +68,26 @@ function renderImages() {
   localStorage.allImages = JSON.stringify(allImages);
 }
 
-
+// generate unique indexes
 function generateUniqueImageIndexes(images, usedImageNames) {
   var newImageIndexes = [];
-
   while (newImageIndexes.length < 3) {
     var index = Math.floor(Math.random() * images.length);
-
     if (!usedImageNames.includes(images[index].name)) {
       newImageIndexes.push(index);
       usedImageNames.push(images[index].name);
     }
-
   }
-
   return newImageIndexes;
 }
 
-
+// get element from html
 var resultListEl = document.getElementById('result');
 
 renderImages();
 renderResultList();
 
-
+// click handler for three images
 function clickHandler(event) {
   if (click >= roundsNumber) {
     renderResultList();
@@ -108,12 +108,14 @@ function clickHandler(event) {
 
 var elements = [image1, image2, image3];
 
+// remove click listener for three images
 function removeClickListener() {
   for (var i = 0; i < elements.length; i++) {
     elements[i].removeEventListener('click', clickHandler);
   }
 }
 
+//render result list
 function renderResultList() {
   resultListEl.innerHTML = '';
   for (var i = 0; i < allImages.length; i++) {
@@ -131,6 +133,7 @@ image3.addEventListener('click', clickHandler);
 var canvas = document.getElementById('myChart');
 var ctx = canvas.getContext('2d');
 
+// draw chart
 function drawChart() {
   createDataForChart();
   createColors();
@@ -175,6 +178,7 @@ var numClickedList = [];
 var timesRenderedList = [];
 var nameList = [];
 
+// create data for chart
 function createDataForChart() {
   for(var i = 0; i < allImages.length; i++) {
     numClickedList.push(allImages[i].numClicked);
@@ -187,6 +191,7 @@ var backgroundColorList = [];
 var tmpBackgroundColorList = [];
 var bordersList = [];
 
+// set colors for chart
 function createColors() {
   for(var i = 0; i < allImages.length; i++) {
     backgroundColorList.push('#2c786c');
